@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Pergamena.jpg</file>
+        <file>Pergamena2.jpg</file>
+        <file>Pergamena4.jpg</file>
+        <file>Pergamena5.jpg</file>
+        <file>SkullIcon.png</file>
+        <file>Descent.qml</file>
+        <file>HpPopup.qml</file>
+        <file>SolidButton.qml</file>
+        <file>Spinner.qml</file>
+        <file>Fantasy Clipart.ttf</file>
+        <file>iforces.ttf</file>
+        <file>IMMORTAL.ttf</file>
+        <file>Windlass.ttf</file>
+        <file>Monsters/AlaTagliente.png</file>
+        <file>Monsters/ChaosBeast.png</file>
+        <file>Monsters/Coboldo.png</file>
+        <file>Monsters/Demone.png</file>
+        <file>Monsters/Drago.png</file>
+        <file>Monsters/ElfoOscuro.png</file>
+        <file>Monsters/Ferrox.png</file>
+        <file>Monsters/Gigante.png</file>
+        <file>Monsters/Golem.png</file>
+        <file>Monsters/Manticora.png</file>
+        <file>Monsters/Naga.png</file>
+        <file>Monsters/Ogre.png</file>
+        <file>Monsters/Ragno.png</file>
+        <file>Monsters/SacerdoteOscuro.png</file>
+        <file>Monsters/Scheletro.png</file>
+        <file>Monsters/Scimmia.png</file>
+        <file>Monsters/SegugioInfernale.png</file>
+        <file>Monsters/Stregone.png</file>
+        <file>Monsters/Troll.png</file>
+        <file>Monsters/UomoBestia.png</file>
+    </qresource>
+</RCC>

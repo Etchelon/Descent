@@ -1,0 +1,147 @@
+
+ ListElement {
+     name: "Ala Tagliente"
+     whiteHp: 5
+     redHp: 6
+     image: "AlaTagliente.png"
+    }
+
+
+ ListElement {
+     name: "Chaos Beast"
+     whiteHp: 11
+     redHp: 12
+     image: "ChaosBeast.png"
+    }
+
+
+ ListElement {
+     name: "Coboldo"
+     whiteHp: 4
+     redHp: 5
+     image: "Coboldo.png"
+    }
+
+ ListElement {
+     name: "Demone"
+     whiteHp: 11
+     redHp: 12
+     image: "Demone.png"
+    }
+
+
+ ListElement {
+     name: "Drago"
+     whiteHp: 11
+     redHp: 12
+     image: "Drago.png"
+    }
+
+ ListElement {
+     name: "Elfo Oscuro"
+     whiteHp: 7
+     redHp: 8
+     image: "ElfoOscuro.png"
+    }
+
+ ListElement {
+     name: "Ferrox"
+     whiteHp: 5
+     redHp: 6
+     image: "Ferrox.png"
+    }
+
+ ListElement {
+     name: "Gigante"
+     whiteHp: 11
+     redHp: 12
+     image: "Gigante.png"
+    }
+
+ ListElement {
+     name: "Golem"
+     whiteHp: 8
+     redHp: 9
+     image: "Golem.png"
+    }
+
+ ListElement {
+     name: "Manticora"
+     whiteHp: 7
+     redHp: 8
+     image: "Manticora.png"
+    }
+
+ ListElement {
+     name: "Naga"
+     whiteHp: 7
+     redHp: 8
+     image: "Naga.png"
+    }
+
+ ListElement {
+     name: "Ogre"
+     whiteHp: 7
+     redHp: 8
+     image: "Ogre.png"
+    }
+
+ ListElement {
+     name: "Ragno"
+     whiteHp: 4
+     redHp: 5
+     image: "Ragno.png"
+    }
+
+ ListElement {
+     name: "Sacerdote Oscuro"
+     whiteHp: 5
+     redHp: 6
+     image: "SacerdoteOscuro.png"
+    }
+
+    ListElement {
+     name: "Scheletro"
+     whiteHp: 4
+     redHp: 5
+     image: "Scheletro.png"
+    }
+
+    ListElement {
+     name: "Scimmia"
+     whiteHp: 9
+     redHp: 10
+     image: "Scimmia.png"
+    }
+
+ ListElement {
+     name: "Segugio Infernale"
+     whiteHp: 5
+     redHp: 6
+     image: "SegugioInfernale.png"
+    }
+
+ ListElement {
+     name: "Stregone"
+     whiteHp: 5
+     redHp: 6
+     image: "Stregone.png"
+    }
+
+ListElement {
+     name: "Troll"
+     whiteHp: 9
+     redHp: 10
+     image: "Troll.png"
+    }
+
+ ListElement {
+     name: "Uomo bestia"
+     whiteHp: 4
+     redHp: 5
+     image: "UomoBestia.png"
+    }
+
+
+
+  
