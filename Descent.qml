@@ -61,14 +61,6 @@ Window {
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignVCenter
 			}
-
-			Rectangle {
-				width: 1
-				height: parent.height
-				anchors {
-					right: parent.right
-				}
-			}
 		}
 
 		ListView {
@@ -335,6 +327,15 @@ Window {
 				}
 			}
 		}
+
+		Rectangle {
+			width: 1
+			height: parent.height
+			z: 2
+			anchors {
+				right: parent.right
+			}
+		}
 	}
 
 	Rectangle {
@@ -382,14 +383,6 @@ Window {
 				}
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignVCenter
-			}
-
-			Rectangle {
-				width: 1
-				height: parent.height
-				anchors {
-					left: parent.left
-				}
 			}
 		}
 
@@ -518,12 +511,12 @@ Window {
 						Text {
 							anchors.fill: parent
 
-							text: "-"
+							text: "-/+"
 							verticalAlignment: Text.AlignVCenter
 							horizontalAlignment: Text.AlignHCenter
 							font {
 								bold: true
-								pixelSize: height * 0.5
+								pixelSize: height * 0.4
 							}
 						}
 						MouseArea {
@@ -537,6 +530,12 @@ Window {
 								if (item.hp === 0)
 									list.remove(index, 1);
 							}
+							onPressAndHold:
+							{
+								var list = monsterListDelegate.ListView.view.model;
+								var item = list.get(index);
+								item.hp += 1;
+							}
 						}
 					}
 
@@ -547,8 +546,32 @@ Window {
 						width: parent.btnWidth
 						height: width
 
+						Timer {
+							id: resetStatusTimer
+
+							interval: 3000
+							repeat: false
+							onTriggered: parent.status = 0;
+						}
+
+						property int status: 0	// 0: normal, 1: pressed once, next press is confirmation
+						function handle_click()
+						{
+							if (status === 0)
+							{
+								status = 1;
+								resetStatusTimer.start();
+							}
+							else
+							{
+								var list = monsterListDelegate.ListView.view.model;
+								list.remove(index, 1);
+								status = 0;
+							}
+						}
+
 						radius: 20
-						color: ma5.containsPress ? "lightgray" : "white"
+						color: status === 1 ? Qt.lighter("red", 1.2) : "white"
 						border.width: 2
 
 						Image {
@@ -560,14 +583,19 @@ Window {
 						MouseArea {
 							id: ma5
 							anchors.fill: parent
-							onClicked:
-							{
-								var list = monsterListDelegate.ListView.view.model;
-								list.remove(index, 1);
-							}
+							onClicked: parent.handle_click();
 						}
 					}
 				}
+			}
+		}
+
+		Rectangle {
+			width: 1
+			height: parent.height
+			z: 2
+			anchors {
+				left: parent.left
 			}
 		}
 	}
