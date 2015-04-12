@@ -38,7 +38,10 @@ Rectangle {
 		anchors.fill: parent
 
 		color: buttonColor === "white" ? "black" : idealTextColor(root.color)
-		font.pixelSize: height * 0.5
+		font {
+			pixelSize: height * 0.5
+			family: immortalFont.name
+		}
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
 	}

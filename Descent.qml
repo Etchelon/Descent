@@ -21,15 +21,15 @@ Window {
 		height: parent.height
 		width: parent.width / 2
 		anchors.left: parent.left
-		property var addMonsterPopup: null
+		property AddBossPopup addBossPopup: null
 
-		function showAddMonsterPopup(index)
+		function showAddBossPopup(index)
 		{
-			var component = Qt.createComponent("AddMonsterPopup.qml")
+			var component = Qt.createComponent("AddBossPopup.qml")
 			if (component.status === Component.Ready)
 			{
-				addMonsterPopup = component.createObject(monsters, { "modal": true, "index": index });
-				addMonsterPopup.show();
+				addBossPopup = component.createObject(monsterTypeList, { "modal": true, "index": index });
+				addBossPopup.show();
 			}
 			else
 				console.log("Status: " + component.status + "; error: " + component.errorString());
@@ -73,7 +73,8 @@ Window {
 				bottom: parent.bottom
 			}
 
-			snapMode: ListView.SnapToItem
+			//snapMode: ListView.SnapToItem
+			boundsBehavior: Flickable.StopAtBounds
 
 			model: ListModel {
 				ListElement {
@@ -196,6 +197,11 @@ Window {
 					redHp: 5
 					image: "Monsters/UomoBestia.png"
 				}
+				ListElement {
+					name: "Final Boss"
+					isBoss: true
+					image: "Monsters/Boss_1.png"
+				}
 			}
 
 			delegate: BorderImage {
@@ -244,84 +250,131 @@ Window {
 					}
 				}
 
-				Rectangle {
-					height: parent.height / 3
-					width: height
+				Item {
+					width: parent.height / 3
+					visible: !isBoss
+
 					anchors {
 						right: parent.right
 						rightMargin: 20
 						top: parent.top
 						topMargin: 20
-					}
-
-					radius: 10
-					color: ma1.containsPress ? "lightgray" : "white"
-					visible: monsterTypeListDelegate.selected
-
-					MouseArea {
-						id: ma1
-
-						anchors.fill: parent
-						onClicked:
-						{
-							var item = monsterTypeList.model.get(index);
-							var newMonster = {
-								type: item.name,
-								hp: item.whiteHp,
-								monsterColor: "white",
-								image: item.image
-							};
-							monsterList.model.append(newMonster);
-						}
-					}
-
-					Text {
-						anchors.centerIn: parent
-						text: "+"
-						font {
-							bold: true
-							pixelSize: 36
-						}
-					}
-				}
-
-				Rectangle {
-					height: parent.height / 3
-					width: height
-					anchors {
-						right: parent.right
-						rightMargin: 20
 						bottom: parent.bottom
 						bottomMargin: 20
 					}
 
-					radius: 10
-					color: ma2.containsPress ? "darkred" : "red"
-					visible: monsterTypeListDelegate.selected
+					Rectangle {
+						height: parent.width
+						width: parent.width
+						anchors.top: parent.top
 
-					MouseArea {
-						id: ma2
+						radius: 10
+						color: ma1.containsPress ? "lightgray" : "white"
+						visible: monsterTypeListDelegate.selected
 
-						anchors.fill: parent
-						onClicked:
-						{
-							var item = monsterTypeList.model.get(index);
-							var newMonster = {
-								type: item.name,
-								hp: item.redHp,
-								monsterColor: "red",
-								image: item.image
-							};
-							monsterList.model.append(newMonster);
+						MouseArea {
+							id: ma1
+
+							anchors.fill: parent
+							onClicked:
+							{
+								var item = monsterTypeList.model.get(index);
+								var newMonster = {
+									type: item.name,
+									isBoss: false,
+									hp: item.whiteHp,
+									monsterColor: "white",
+									image: item.image
+								};
+								monsterList.model.append(newMonster);
+							}
+						}
+
+						Text {
+							anchors.centerIn: parent
+							text: "+"
+							font {
+								bold: true
+								pixelSize: 36
+							}
 						}
 					}
 
-					Text {
-						anchors.centerIn: parent
-						text: "+"
-						font {
-							bold: true
-							pixelSize: 36
+					Rectangle {
+						height: parent.width
+						width: parent.width
+						anchors.bottom: parent.bottom
+
+						radius: 10
+						color: ma2.containsPress ? "darkred" : "red"
+						visible: monsterTypeListDelegate.selected
+
+						MouseArea {
+							id: ma2
+
+							anchors.fill: parent
+							onClicked:
+							{
+								var item = monsterTypeList.model.get(index);
+								var newMonster = {
+									type: item.name,
+									isBoss: false,
+									hp: item.redHp,
+									monsterColor: "red",
+									image: item.image,
+									name: ""
+								};
+								monsterList.model.append(newMonster);
+							}
+						}
+
+						Text {
+							anchors.centerIn: parent
+							text: "+"
+							font {
+								bold: true
+								pixelSize: 36
+							}
+						}
+					}
+				}
+
+				Item {
+					width: parent.height / 3
+					visible: isBoss
+
+					anchors {
+						right: parent.right
+						rightMargin: 20
+						top: parent.top
+						topMargin: 20
+						bottom: parent.bottom
+						bottomMargin: 20
+					}
+
+					Rectangle {
+						height: parent.width
+						width: parent.width
+						anchors.verticalCenter: parent.verticalCenter
+
+						radius: 10
+						color: ma3.containsPress ? "lightgray" : "white"
+						visible: monsterTypeListDelegate.selected
+
+						MouseArea {
+							id: ma3
+
+							anchors.fill: parent
+							onClicked: monsterTypes.showAddBossPopup(index);
+						}
+
+						Text {
+							anchors.centerIn: parent
+							text: "+"
+							font {
+								bold: true
+								pixelSize: 36
+							}
 						}
 					}
 				}
@@ -344,7 +397,6 @@ Window {
 		height: parent.height
 		width: parent.width / 2
 		anchors.right: parent.right
-		property HpPopup hpPopup: null
 
 		function showHpPopup(index)
 		{
@@ -397,6 +449,7 @@ Window {
 			}
 
 			snapMode: ListView.SnapToItem
+			boundsBehavior: Flickable.StopAtBounds
 
 			model: ListModel { }
 
@@ -448,7 +501,7 @@ Window {
 							rightMargin: 10
 						}
 
-						text: type
+						text: isBoss ? name : type
 						color: "white"
 						style: Text.Sunken
 						horizontalAlignment: Text.AlignHCenter
@@ -456,7 +509,7 @@ Window {
 						elide: Text.ElideRight
 						font {
 							family: windlassFont.name
-							pixelSize: 30
+							pixelSize: 30 * (isBoss ? 1.3 : 1)
 						}
 					}
 				}
@@ -479,7 +532,7 @@ Window {
 						height: width
 
 						radius: 20
-						color: ma3.containsPress ? "lightgray" : "white"
+						color: ma4.containsPress ? "lightgray" : "white"
 						border.width: 2
 
 						Text {
@@ -491,7 +544,7 @@ Window {
 							font.pixelSize: height * 0.5
 						}
 						MouseArea {
-							id: ma3
+							id: ma4
 							anchors.fill: parent
 							onClicked: monsters.showHpPopup(index);
 						}
@@ -505,7 +558,7 @@ Window {
 						height: width
 
 						radius: 20
-						color: ma4.containsPress ? "lightgray" : "white"
+						color: ma5.containsPress ? "lightgray" : "white"
 						border.width: 2
 
 						Text {
@@ -520,7 +573,7 @@ Window {
 							}
 						}
 						MouseArea {
-							id: ma4
+							id: ma5
 							anchors.fill: parent
 							onClicked:
 							{
@@ -581,7 +634,6 @@ Window {
 							source: "SkullIcon.png"
 						}
 						MouseArea {
-							id: ma5
 							anchors.fill: parent
 							onClicked: parent.handle_click();
 						}
