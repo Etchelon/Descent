@@ -1,7 +1,10 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import "underscore.js" as Underscore
 
 Window {
+	property var _: Underscore.init();
+
 	height: 720
 	width: 1280
 	visible: true
@@ -13,6 +16,65 @@ Window {
 	FontLoader {
 		id: immortalFont
 		source: "IMMORTAL.ttf"
+	}
+
+	property var letters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+	property var queue: []
+
+	function getNextLetter()
+	{
+		if (queue.length === 0)
+		{
+			queue.push("A");
+			return "A";
+		}
+		else
+		{
+			for (var i = 0; i < letters.length; ++i)
+			{
+				var letter = letters[i];
+				if (!_.contains(queue, letter))
+				{
+					queue.push(letter);
+					return letter;
+				}
+			}
+		}
+	}
+
+	function addMonster(color, item)
+	{
+		var newMonster = {
+			type: item.name,
+			isBoss: false,
+			image: item.image,
+			name: "",
+			letter: getNextLetter()
+		};
+
+		switch (color)
+		{
+		case "white":
+			newMonster.hp = item.whiteHp;
+			newMonster.monsterColor = "white";
+			break;
+
+		case "red":
+			newMonster.hp = item.redHp;
+			newMonster.monsterColor = "red";
+			break;
+		}
+
+		monsterList.model.append(newMonster);
+	}
+
+	function removeMonster(list, index)
+	{
+		var monster = list.get(index);
+		var letter = monster.letter;
+		list.remove(index, 1);
+
+		queue = _.without(queue, letter);
 	}
 
 	Rectangle {
@@ -279,14 +341,7 @@ Window {
 							onClicked:
 							{
 								var item = monsterTypeList.model.get(index);
-								var newMonster = {
-									type: item.name,
-									isBoss: false,
-									hp: item.whiteHp,
-									monsterColor: "white",
-									image: item.image
-								};
-								monsterList.model.append(newMonster);
+								addMonster("white", item);
 							}
 						}
 
@@ -316,15 +371,7 @@ Window {
 							onClicked:
 							{
 								var item = monsterTypeList.model.get(index);
-								var newMonster = {
-									type: item.name,
-									isBoss: false,
-									hp: item.redHp,
-									monsterColor: "red",
-									image: item.image,
-									name: ""
-								};
-								monsterList.model.append(newMonster);
+								addMonster("red", item);
 							}
 						}
 
@@ -474,22 +521,33 @@ Window {
 
 					property real itemHeight: (height - spacing) / 2
 
-					Rectangle {
-						anchors {
-							horizontalCenter: parent.horizontalCenter
-						}
+					Row {
+						anchors.horizontalCenter: parent.horizontalCenter
 						height: parent.itemHeight
-						width: height
+						Rectangle {
+							height: parent.height
+							width: height
 
-						color: monsterColor
+							color: monsterColor
 
-						Image {
-							id: im2
+							Image {
+								id: im2
 
-							anchors.centerIn: parent
-							height: parent.height - 10
-							width: parent.width - 10
-							source: image
+								anchors.centerIn: parent
+								height: parent.height - 10
+								width: parent.width - 10
+								source: image
+							}
+						}
+						Text {
+							height: parent.height
+							width: height
+
+							text: isBoss ? "" : letter
+							color: "white"
+							font.pixelSize: 40
+							verticalAlignment: Text.AlignVCenter
+							horizontalAlignment: Text.AlignHCenter
 						}
 					}
 					Text {
@@ -575,13 +633,14 @@ Window {
 						MouseArea {
 							id: ma5
 							anchors.fill: parent
+
 							onClicked:
 							{
 								var list = monsterListDelegate.ListView.view.model;
 								var item = list.get(index);
 								item.hp -= 1;
 								if (item.hp === 0)
-									list.remove(index, 1);
+									removeMonster(list, index);
 							}
 							onPressAndHold:
 							{
@@ -618,7 +677,7 @@ Window {
 							else
 							{
 								var list = monsterListDelegate.ListView.view.model;
-								list.remove(index, 1);
+								removeMonster(list, index);
 								status = 0;
 							}
 						}

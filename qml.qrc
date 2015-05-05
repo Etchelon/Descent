@@ -37,5 +37,6 @@
         <file>Monsters/Boss_2.png</file>
         <file>Monsters/Boss_3.png</file>
         <file>TextBox.qml</file>
+        <file>underscore.js</file>
     </qresource>
 </RCC>
